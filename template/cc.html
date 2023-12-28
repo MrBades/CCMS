@@ -1,0 +1,315 @@
+{% extends 'mainbase.html' %}
+
+{% block content %}
+<style>
+    .container{
+        height: auto;
+        width: 100;
+    }
+
+    .ClientOrder,
+    .Messages,
+    .Email{
+        height: auto;
+        width: 100%;
+        display: none;
+        gap: 15px;
+        grid-template-columns: auto;
+        margin-top: 1em;
+    }
+
+.Order,
+.Message,
+.mail{
+    height: auto;
+    width: auto;
+    background: #d4af37;
+    padding: 1em 2em;
+}
+
+.cc_nav{
+    height: auto;
+    width: 100%;
+}
+
+.cc_nav ul{
+    display: grid;
+    gap: 1em;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.cc_nav ul li{
+    list-style: none;
+    padding: 0.5em;
+    border-right: 1px solid #000;
+    cursor: pointer;
+}
+
+.cc_nav ul li:last-child{
+    border: none;
+}
+
+.cc_nav ul li:hover{
+    background: #d4af37;
+}
+
+.contact-title-container{
+    display: none;
+}
+
+#id_Document_Description{
+    width: 98%;
+}
+
+#file-upload-button{
+    background: #d4af37;
+    width: 5em;
+}
+</style>
+<style>
+
+    .success{
+        width: 80vw;
+        height: auto;
+        background: #efe;
+        border-radius: 1em;
+        border: 1px solid #d4af37;
+        background: #d4af37;
+        box-shadow: 5px 15px 15px;
+        position: absolute;
+        margin: auto 10%;
+        position: fixed;
+        display: none;
+    }
+
+    .success h2{
+        width: 100%;
+        text-align: center;
+    }
+
+    .success blockquote{
+        text-align: center;
+    }    
+    
+    #id_Email,
+    #id_Phone{
+        width: 90%;
+        height: auto;
+        margin: 2%;
+        padding: 1em;
+        border-radius: 0.5em;
+        border: 1px solid rgb(120, 103, 0);
+        background: rgba(218, 185, 0, 0.103);
+        display: none;
+    }
+
+    #reply-container #id_Name{
+        display: none;
+    }
+    
+    #id_Email{
+        display: block;
+    }
+
+#id_Message{
+    width: 90%;
+    height: auto;
+    padding: 1em;
+    margin: 2%;
+    border-radius: 0.5em;
+    border: 1px solid rgb(120, 103, 0);
+    background: rgba(220,185,0,0.2)
+}
+</style>
+
+<div class="cc_nav">
+    <ul>
+        <li onclick="Show('ClientOrder')">CLIENT ORDER</li>
+        <li onclick="Show('Messages')">MESSAGES</li>
+        <li onclick="Show('Email')">EMAIL LIST</li>
+        <li onclick="Show('Update')">UPDATE</li>
+    </ul>
+
+</div>
+
+
+    
+<div class="success" id="reply-container">
+    <button style="float: right; margin: 0.5em; padding: 0.5em; background: rgba(255, 0, 0, 0.664); border-radius: 0.5em; border: none; cursor: pointer;" 
+    onclick="replyer('cancel', 'none')" >Cancel</button>
+
+    <form class="reply-form" id="replyForm" method="POST"  onsubmit="replyer('cancel', 'none')">
+        {% csrf_token %}
+        {{ Form.Name }}
+        {{ Form.Phone }}
+        {{ Form.Email }}
+        {{ Form.Message }}
+        <div class="col-sm-col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <button name="submit" class="send_btn" id="send">Send</button>
+        </div>
+        
+    </form>
+</div>
+
+<div class="contact-title-container" id="ClientOrder">
+    <blockquote class="contact-title" style="font-weight: 600; font-style: oblique;">Client Order</blockquote>
+</div>
+<div class="container">
+
+    <div class="ClientOrder" id="ClientOrder">
+        {% for Order in ClientOrder %}
+        <div class="Order">
+            <p>NAME: {{Order.Client_Name}}</p>
+            <p>Design: {{ Order.Design }}</p>
+            <p>Client Email: {{ Order.Client_Email }}</p>
+            <p>Client Phone Number: {{Order.Client_C_Number}}</p>
+            <p>Material: {{ Order.Material_pref }}</p>
+            <p>Color: {{ Order.Color_pref }}</p>
+            <p>Design: {{Order.Design_pref}}</p>
+            <p>Measurement: {{ Order.Measurement_pref }}</p>
+            <p>Booking Date: {{ Order.Booking_Date }}</p>
+            <p>Expecting Date: {{Order.Expecting_Date}}</p>
+            <p>
+                Uploaded Design: <br>
+                {% if Order.Upload_Design == '' %}
+                    No Design Uploaded
+                {% else %}
+                    <img src="{{ Order.Upload_Design.url }}" alt="Avatar" style="width:50%;height:20%; border-radius: 1em; margin-left: 1em;">
+                {%endif%}
+            </p>
+            <p>Design Details: {{ Order.Design_Details }}</p>
+            <p>
+                Uploaded Design: <br>
+                {% if Order.Upload_Mesurement == '' %}
+                    No Mesurement Uploaded
+                {% else %}
+                    <img src="{{ Order.Upload_Mesurement.url }}" alt="Avatar" style="width:50%;height:20%; border-radius: 1em; margin-left: 1em;">
+                {%endif%}
+            </p>
+            <p>Mesurement Details: {{ Order.Mesurement_Details }}</p>
+            <a href="{% url 'invoicer' id=Order.id %}"><button style="float: right; top: 0; border: none; background: #665419; padding: 0.5em; border-radius: 0.5em 1em; color: #efe;">Generate Invoice</button></a>
+        </div>
+        {%endfor%}
+    </div>
+
+    <div class="contact-title-container" id="Messages">
+        <h1 class="contact-title">Messages</h1>
+    </div>
+    <div class="Messages" id="Messages">
+        {% for SMS in Message%}
+            <div class="Message">
+                <p>NAME: {{ SMS.Name }}</p>
+                <p>Email: {{ SMS.Email }}</p>
+                <p>Phone Number: {{ SMS.Phone }}</p>
+                <blockquote>Message: {{SMS.Message}}</blockquote>
+                <button style="float: right; top: 0; border: none; background: #f0f; padding: 0.5em; border-radius: 0.5em 1em;" onclick="replyer('reply', ' {{ SMS.Email }}')">Reply</button>
+            </div>
+        {%endfor%}
+    </div>
+
+    <div class="contact-title-container" id="Email">
+            <blockquote class="contact-title" style="font-weight: 600; font-style: oblique;">Email List</blockquote>
+    </div>
+    <div class="Email" id="Email">
+        {% for mail in Email%}
+            <div class="mail">
+                <p>NAME: {{ mail.mail }}
+            </div>
+        {%endfor%}
+    </div>
+
+    <div class="contact-title-container" id="update_form">
+            <blockquote class="contact-title" style="font-weight: 600; font-style: oblique;">Update Websitte Content</blockquote>
+    </div>
+    <form action="" class="order_form2" id="update_form" method="post"   enctype="multipart/form-data" style="margin-top: 2em;">
+        
+        {% csrf_token %}
+
+        <div class="Mesurements_div" id="Design_div" style="background: #d4af37;">
+            <label class="Design_label" for="id_Design" id="Design_label" >
+                Admin:
+            </label>
+            {{ uploadWebsiteResForm.Admin_Name }}
+        </div>
+
+        <div class="Mesurements_div" id="Design_div" style="background: #d4af37;">
+            <label class="Design_label" for="id_Design" id="Design_label" >
+                Content Name:
+            </label>
+            {{ uploadWebsiteResForm.Name }}
+        </div>
+
+        <div class="Mesurements_div" id="Design_div" style="background: #d4af37;">
+            <label class="Design_label" for="id_Design" id="Design_label" >
+                File:
+            </label>
+            {{ uploadWebsiteResForm.Site_Upload }}
+        </div>
+
+        <div class="Mesurements_div" id="Design_div" style="background: #d4af37;">
+            <label class="Design_label" for="id_Design" id="Design_label" >
+                Purpose
+            </label>
+            {{ uploadWebsiteResForm.Purpose }}
+        </div>
+
+        <div class="Document_Description" id="Document_Description" style="background: #d4af37;">
+            <!-- <label class="Document_Description_label" for="Document_Description" id="Document_Description_label" >
+                Description
+            </label> -->
+            {{ uploadWebsiteResForm.Document_Description }}
+        </div>
+        
+        <button class="send_btn" style="background: #d4af37; color: black;">Upload</button>
+    </form>
+</div>
+
+    <script>
+        let ClientOrder = document.querySelectorAll("#ClientOrder");
+        let Messages = document.querySelectorAll("#Messages");
+        let Email = document.querySelectorAll("#Email");
+        let Update = document.querySelectorAll("#update_form");
+        let replyC = document.getElementById('reply-container');
+    
+        function Show(which){
+            for(let i = 0; i < 2; i++){
+                ClientOrder[i].style.display = "none";
+                Messages[i].style.display = "none";
+                Email[i].style.display = "none";
+                Update[i].style.display = "none";
+            }
+            if(which === "ClientOrder"){
+                for(let i = 0; i < ClientOrder.length; i++){
+                    ClientOrder[i].style.display = "grid";
+                }
+            }
+            if(which === "Messages"){
+                for(let i = 0; i < Messages.length; i++){
+                    Messages[i].style.display = "grid";
+                }
+            }
+            if(which === "Email"){
+                for(let i = 0; i < Email.length; i++){
+                    Email[i].style.display = "grid";
+                }
+            }
+            if(which === "Update"){
+                for(let i = 0; i < Update.length; i++){
+                    Update[i].style.display = "grid";
+                }
+            }
+        }
+
+        function replyer(action, mailTo){
+            if(action === "reply"){
+                document.getElementById('id_Name').value = "CarewCouture"
+                document.getElementById('id_Email').value = mailTo
+                document.getElementById('id_Phone').value = "2348133158305"
+                replyC.style.display = "block"
+            }
+            if(action === "cancel"){
+                replyC.style.display = "none"
+            }
+        }
+    </script>
+{% endblock %}

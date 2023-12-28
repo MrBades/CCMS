@@ -1,0 +1,548 @@
+{% extends 'mainbase.html' %}
+
+{% block content %}
+<style>
+    .order_gallery{
+        height: auto;
+        width: auto;
+        gap: 1em 1em;
+        grid-template-columns: auto;
+        grid-template-rows: auto;
+        position: absolute;
+        background: #fff;
+        float: right;
+        border-radius: 0.5em;
+        right: 30%;
+        top: 30%;
+        border: 2px solid #d4af37;
+        position: fixed;
+        box-shadow: 1px 2px 3px #d4af37;
+        display: none;
+    }
+
+    .order_gallery h3{
+        font-size: large;
+        font-variant: small-caps;
+        text-align: center;
+    }
+
+    .order_gallery .atention_op{
+        background: #d4af37;
+        padding: 1em ;
+        margin: 0.5em;
+    }
+
+    .order_gallery:hover .atention_op:hover{
+        border-radius: 0.5em;
+    }
+    #attntion_button{
+        float: right;
+    }
+</style>
+
+<!-- MOBILE 360px TO 450px -->
+<style>
+
+    @media screen and (max-width:450px) {
+        #id_Expecting_Date{
+            width: fit-content;
+        }
+        
+        #id_Shoulder_to_nipple_point,
+        #id_Shoulder_to_under_burst,
+        #id_Shoulder_to_half_length,
+        #id_Shoulder_to_hip_part,
+        #id_Shoulder_to_knee_length,
+        #id_Shoulder_to_dress_length,
+        #id_Burst,
+        #id_Upper_burst,
+        #id_Under_Burst,
+        #id_High_waist_measurement,
+        #id_Waist_measurement,
+        #id_High_hip,
+        #id_Hip,
+        #id_Knee_measurement,
+        #id_Cleavage_level,
+        #id_Shoulder_measurement,
+        #id_Sleeve_length,
+        #id_Round_sleeve_length,
+        #id_Waist_to_hip,
+        #id_Waist_to_knee,
+        #id_Waist_to_floor{
+            width: 8em;
+        }
+    }
+    @media screen and (max-width:400px) {
+
+        .Mesurements_div{
+            width: 100%;
+        }
+
+        #id_Expecting_Date{
+            width: fit-content;
+        }        
+
+        #id_Shoulder_to_nipple_point,
+        #id_Shoulder_to_under_burst,
+        #id_Shoulder_to_half_length,
+        #id_Shoulder_to_hip_part,
+        #id_Shoulder_to_knee_length,
+        #id_Shoulder_to_dress_length,
+        #id_Burst,
+        #id_Upper_burst,
+        #id_Under_Burst,
+        #id_High_waist_measurement,
+        #id_Waist_measurement,
+        #id_High_hip,
+        #id_Hip,
+        #id_Knee_measurement,
+        #id_Cleavage_level,
+        #id_Shoulder_measurement,
+        #id_Sleeve_length,
+        #id_Round_sleeve_length,
+        #id_Waist_to_hip,
+        #id_Waist_to_knee,
+        #id_Waist_to_floor{
+            width: 7em;
+        }
+    }    
+    
+    @media screen and (max-width:360px) {
+        #id_Expecting_Date,
+        #id_Measurement_pref,
+        #id_Design_pref{
+            width: fit-content;
+        }
+
+        #id_Shoulder_to_nipple_point,
+        #id_Shoulder_to_under_burst,
+        #id_Shoulder_to_half_length,
+        #id_Shoulder_to_hip_part,
+        #id_Shoulder_to_knee_length,
+        #id_Shoulder_to_dress_length,
+        #id_Burst,
+        #id_Upper_burst,
+        #id_Under_Burst,
+        #id_High_waist_measurement,
+        #id_Waist_measurement,
+        #id_High_hip,
+        #id_Hip,
+        #id_Knee_measurement,
+        #id_Cleavage_level,
+        #id_Shoulder_measurement,
+        #id_Sleeve_length,
+        #id_Round_sleeve_length,
+        #id_Waist_to_hip,
+        #id_Waist_to_knee,
+        #id_Waist_to_floor{
+            width: 6em;
+        }
+    }
+    #id_Client_Name{
+        background: none;
+        border: none;
+        color: aliceblue;
+    }
+
+    .pp{
+        height: 5em;
+        width: 4em;
+        border-radius: 0.5em;
+        position: absolute;
+        right: calc(50% - 2em);
+    }
+</style>
+
+<a href="http://127.0.0.1:8000/staffs/"><input type="button" value="back"></a>
+
+<form action="" class="order_form2" id="order_form" method="post"   enctype="multipart/form-data">
+    {% csrf_token %}
+        <!-- {{ orderForm.as_p }} -->
+    <h4>Staff</h4>
+
+    {% if Agreement.Passport.url == null %}
+
+        <img src="{{Agreement.Passport.url}}" alt="Profile Picture" class="pp">
+
+    {% else %}
+        <b style="margin-left: 30%;">{{BioData.Firstname}} {{BioData.Surname}} has no profile picture yet</b>
+    {% endif %}
+
+        <div class="Mesurements_div" id="Client_Name_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Staff Name:
+            </label>
+            <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                {{ BioData.Firstname }} {{ BioData.Surname }}
+            </label>
+        </div>
+
+        <div class="Mesurements_div" id="Booking_Date_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Other Name
+            </label>
+            <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                {{BioData.Other}}
+            </label>
+        </div>
+
+        <div class="Mesurements_div" id="Expecting_Date_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Sex
+            </label>
+            <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                {{BioData.Sex}}
+            </label>
+        </div>
+
+        <div class="Mesurements_div" id="Design_div" >
+            <label class="Design_label" for="id_Design" id="Design_label" >
+                Date of Birth
+            </label>
+            <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                {{BioData.Date_of_Birth}}
+            </label>
+        </div>
+
+        <div class="Mesurements_div" id="Design_div" >
+            <label class="Design_label" for="id_Design" id="Design_label" >
+                State of Origin
+            </label>
+            <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                {{BioData.State_of_Origin}}
+            </label>
+        </div>
+
+        <div class="Mesurements_div" id="Shoulder_to_nipple_point_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                L G A
+            </label>
+            <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                {{BioData.LGA}}
+            </label>
+        </div>
+
+        <div class="Mesurements_div" id="Shoulder_to_under_burst_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Marital Status
+            </label>
+            <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                {{BioData.Marital_Status}}
+            </label>
+        </div>
+
+        <div class="Mesurements_div" id="Shoulder_to_half_length_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Religion
+            </label>
+            <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                {{BioData.Religion}}
+            </label>
+        </div>
+
+        <div class="Mesurements_div" id="Shoulder_to_hip_part_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Home Address
+            </label>
+            <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                {{BioData.Home_Address}}
+            </label>
+        </div>
+
+        <div class="Mesurements_div" id="Shoulder_to_knee_length_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Phone Number
+            </label>
+            <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                {{BioData.Phone_Number}}
+            </label>
+        </div>
+
+        <div class="Mesurements_div" id="Shoulder_to_dress_length_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Next Of Kin
+            </label>
+            <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                {{BioData.Next_Of_Kin}}
+            </label>
+        </div>
+
+        <div class="Mesurements_div" id="Burst_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Relationship
+            </label>
+            <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                {{BioData.Relationship}}
+            </label>
+        </div>
+
+        <div class="Mesurements_div" id="Upper_burst_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Next Of Kin Phone
+            </label>
+            <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                {{BioData.NOK_Phone}}
+            </label>
+        </div>
+
+        <div class="Mesurements_div" id="Under_Burst_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Email Adress
+            </label>
+            <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                {{BioData.Email_Adress}}
+            </label>
+        </div>
+
+        <h4>Guarantor</h4>
+
+    
+            <div class="Mesurements_div" id="Client_Name_div" >
+                <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                    Guarantor Name:
+                </label>
+                <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                    {{Guarantor.Firstname}} {{Guarantor.Surname}}
+                </label>
+            </div>
+    
+            <div class="Mesurements_div" id="Booking_Date_div" >
+                <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                    Other Name
+                </label>
+                <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                    {{Guarantor.Other}}
+                </label>
+            </div>
+    
+            <div class="Mesurements_div" id="Expecting_Date_div" >
+                <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                    Sex
+                </label>
+                <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                    {{Guarantor.Sex}}
+                </label>
+            </div>
+    
+            <div class="Mesurements_div" id="Design_div" >
+                <label class="Design_label" for="id_Design" id="Design_label" >
+                    Date of Birth
+                </label>
+                <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                    {{Guarantor.Date_of_Birth}}
+                </label>
+            </div>
+    
+            <div class="Mesurements_div" id="Design_div" >
+                <label class="Design_label" for="id_Design" id="Design_label" >
+                    State of Origin
+                </label>
+                <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                    {{Guarantor.State_of_Origin}}
+                </label>
+            </div>
+    
+            <div class="Mesurements_div" id="Shoulder_to_nipple_point_div" >
+                <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                    L G A
+                </label>
+                <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                    {{Guarantor.LGA}}
+                </label>
+            </div>
+    
+            <div class="Mesurements_div" id="Shoulder_to_under_burst_div" >
+                <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                    Marital Status
+                </label>
+                <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                    {{Guarantor.Marital_Status}}
+                </label>
+            </div>
+    
+            <div class="Mesurements_div" id="Shoulder_to_half_length_div" >
+                <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                    Religion
+                </label>
+                <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                    {{Guarantor.Religion}}
+                </label>
+            </div>
+    
+            <div class="Mesurements_div" id="Shoulder_to_hip_part_div" >
+                <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                    Home Address
+                </label>
+                <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                    {{Guarantor.Home_Address}}
+                </label>
+            </div>
+    
+            <div class="Mesurements_div" id="Shoulder_to_knee_length_div" >
+                <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                    Phone Number
+                </label>
+                <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                    {{Guarantor.Phone_Number}}
+                </label>
+            </div>
+    
+            <div class="Mesurements_div" id="Shoulder_to_dress_length_div" >
+                <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                    Next Of Kin
+                </label>
+                <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                    {{Guarantor.Next_Of_Kin}}
+                </label>
+            </div>
+    
+            <div class="Mesurements_div" id="Burst_div" >
+                <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                    Relationship
+                </label>
+                <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                    {{Guarantor.Relationship}}
+                </label>
+            </div>
+    
+            <div class="Mesurements_div" id="Upper_burst_div" >
+                <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                    Next Of Kin Phone
+                </label>
+                <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                    {{Guarantor.NOK_Phone}}
+                </label>
+            </div>
+    
+            <div class="Mesurements_div" id="Under_Burst_div" >
+                <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                    Email Adress
+                </label>
+                <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                    {{Guarantor.NOK_Email_Adress}}
+                </label>
+            </div>
+
+            <h4>Agreement</h4>
+    
+            <div class="order_form_div1" id="order_form_div1">
+        
+                <div class="Mesurements_div" id="Client_Name_div" >
+                    <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                        Name:
+                    </label>
+                    <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                        {{Agreement.Name}}
+                    </label>
+                </div>
+        
+                <div class="Mesurements_div" id="Client_Name_div" >
+                    <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                        Date:
+                    </label>
+                    <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                        {{Agreement.Date}}
+                    </label>
+                </div>
+        
+                <div class="Mesurements_div" id="Client_Name_div" >
+                    <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                        Role:
+                    </label>
+                    <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                        {{Agreement.Job_Role}}
+                    </label>
+                </div>
+        
+                <div class="Mesurements_div" id="Booking_Date_div" >
+                    <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                        Working Hours
+                    </label>
+                    <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                        {{Agreement.Working_Hours}}
+                    </label>
+                </div>
+        
+                <div class="Mesurements_div" id="Expecting_Date_div" >
+                    <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                        Break Time
+                    </label>
+                    <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                        {{Agreement.Break_Time}}
+                    </label>
+                </div>
+        
+                <div class="Mesurements_div" id="Design_div" >
+                    <label class="Design_label" for="id_Design" id="Design_label" >
+                        Closing Hours
+                    </label>
+                    <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                        {{Agreement.Closing_Hours}}
+                    </label>
+                </div>
+        
+                <div class="Mesurements_div" id="Design_div" >
+                    <label class="Design_label" for="id_Design" id="Design_label" >
+                        To Produce
+                    </label>
+                    <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                        {{Agreement.To_Produce}}
+                    </label>
+                </div>
+        
+                <div class="Mesurements_div" id="Shoulder_to_nipple_point_div" >
+                    <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                        Salary
+                    </label>
+                    <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                        {{Agreement.Salary}}
+                    </label>
+                </div>
+        
+                <div class="Mesurements_div" id="Shoulder_to_under_burst_div" >
+                    <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                        Work Duration
+                    </label>
+                    <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                        {{Agreement.Work_Duration}}
+                    </label>
+                </div>
+        
+                <div class="Mesurements_div" id="Shoulder_to_half_length_div" >
+                    <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                        Terms And Conditions
+                    </label>
+                    <label class="Mesurements_label" for="id_Measurement_pref" id="id_Client_Name" >
+                        {{Agreement.Terms_And_Conditions}}
+                    </label>
+                </div>
+</form>
+<script>
+    document.getElementById('id_Client_Name').value = '{{Job.Client_Name}}'
+    document.getElementById('id_Date').value = '{{Job.Date}}'
+    document.getElementById('id_Delivery_Date').value = '{{Job.Delivery_Date}}'
+    document.getElementById('id_Shoulder_to_nipple_point').value = '{{Job.Shoulder_to_nipple_point}}'
+    document.getElementById('id_Shoulder_to_under_burst').value = '{{Job.Shoulder_to_under_burst}}'
+    document.getElementById('id_Shoulder_to_half_length').value = '{{Job.Shoulder_to_half_length}}'
+    document.getElementById('id_Shoulder_to_under_burst').value = '{{Job.Shoulder_to_under_burst}}'
+    document.getElementById('id_Shoulder_to_hip_part').value = '{{Job.Shoulder_to_hip_part}}'
+    document.getElementById('id_Shoulder_to_knee_length').value = '{{Job.Shoulder_to_knee_length}}'
+    document.getElementById('id_Shoulder_to_dress_length').value = '{{Job.Shoulder_to_dress_length}}'
+    document.getElementById('id_Burst').value = '{{Job.Burst}}'
+    document.getElementById('id_Upper_burst').value = '{{Job.Upper_burst}}'
+    document.getElementById('id_Under_Burst').value = '{{Job.Under_Burst}}'
+    document.getElementById('id_High_waist_measurement').value = '{{Job.High_waist_measurement}}'
+    document.getElementById('id_Waist_measurement').value = '{{Job.Waist_measurement}}'
+    document.getElementById('id_High_hip').value = '{{Job.High_hip}}'
+    document.getElementById('id_Hip').value = '{{Job.Hip}}'
+    document.getElementById('id_Knee_measurement').value = '{{Job.Knee_measurement}}'
+    document.getElementById('id_Cleavage_level').value = '{{Job.Cleavage_level}}'
+    document.getElementById('id_Shoulder_measurement').value = '{{Job.Shoulder_measurement}}'
+    document.getElementById('id_Sleeve_length').value = '{{Job.Sleeve_length}}'
+    document.getElementById('id_Round_sleeve_length').value = '{{Job.Round_sleeve_length}}'
+    document.getElementById('id_Waist_to_hip').value = '{{Job.Waist_to_hip}}'
+    document.getElementById('id_Waist_to_knee').value = '{{Job.Waist_to_knee}}'
+    document.getElementById('id_Waist_to_floor').value = '{{Job.Waist_to_floor}}'
+</script>
+
+{% endblock %}

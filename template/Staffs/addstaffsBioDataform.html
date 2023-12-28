@@ -1,0 +1,162 @@
+{% extends 'mainbase.html' %}
+
+{% block content %}
+<style>
+    .order_gallery{
+        height: auto;
+        width: auto;
+        gap: 1em 1em;
+        grid-template-columns: auto;
+        grid-template-rows: auto;
+        position: absolute;
+        background: #fff;
+        float: right;
+        border-radius: 0.5em;
+        right: 30%;
+        top: 30%;
+        border: 2px solid #d4af37;
+        position: fixed;
+        box-shadow: 1px 2px 3px #d4af37;
+        display: none;
+    }
+
+    .order_gallery h3{
+        font-size: large;
+        font-variant: small-caps;
+        text-align: center;
+    }
+
+    .order_gallery .atention_op{
+        background: #d4af37;
+        padding: 1em ;
+        margin: 0.5em;
+    }
+
+    .order_gallery:hover .atention_op:hover{
+        border-radius: 0.5em;
+    }
+    #attntion_button{
+        float: right;
+    }
+</style>
+
+<!-- MOBILE 360px TO 450px -->
+<style>
+
+    @media screen and (max-width:450px) {
+        #id_Expecting_Date{
+            width: fit-content;
+        }
+        
+        #id_Shoulder_to_nipple_point,
+        #id_Shoulder_to_under_burst,
+        #id_Shoulder_to_half_length,
+        #id_Shoulder_to_hip_part,
+        #id_Shoulder_to_knee_length,
+        #id_Shoulder_to_dress_length,
+        #id_Burst,
+        #id_Upper_burst,
+        #id_Under_Burst,
+        #id_High_waist_measurement,
+        #id_Waist_measurement,
+        #id_High_hip,
+        #id_Hip,
+        #id_Knee_measurement,
+        #id_Cleavage_level,
+        #id_Shoulder_measurement,
+        #id_Sleeve_length,
+        #id_Round_sleeve_length,
+        #id_Waist_to_hip,
+        #id_Waist_to_knee,
+        #id_Waist_to_floor{
+            width: 8em;
+        }
+    }
+    @media screen and (max-width:400px) {
+
+        .Mesurements_div{
+            width: 100%;
+        }
+
+        #id_Expecting_Date{
+            width: fit-content;
+        }        
+
+        #id_Shoulder_to_nipple_point,
+        #id_Shoulder_to_under_burst,
+        #id_Shoulder_to_half_length,
+        #id_Shoulder_to_hip_part,
+        #id_Shoulder_to_knee_length,
+        #id_Shoulder_to_dress_length,
+        #id_Burst,
+        #id_Upper_burst,
+        #id_Under_Burst,
+        #id_High_waist_measurement,
+        #id_Waist_measurement,
+        #id_High_hip,
+        #id_Hip,
+        #id_Knee_measurement,
+        #id_Cleavage_level,
+        #id_Shoulder_measurement,
+        #id_Sleeve_length,
+        #id_Round_sleeve_length,
+        #id_Waist_to_hip,
+        #id_Waist_to_knee,
+        #id_Waist_to_floor{
+            width: 7em;
+        }
+    }    
+    
+    @media screen and (max-width:360px) {
+        #id_Expecting_Date,
+        #id_Measurement_pref,
+        #id_Design_pref{
+            width: fit-content;
+        }
+
+        #id_Shoulder_to_nipple_point,
+        #id_Shoulder_to_under_burst,
+        #id_Shoulder_to_half_length,
+        #id_Shoulder_to_hip_part,
+        #id_Shoulder_to_knee_length,
+        #id_Shoulder_to_dress_length,
+        #id_Burst,
+        #id_Upper_burst,
+        #id_Under_Burst,
+        #id_High_waist_measurement,
+        #id_Waist_measurement,
+        #id_High_hip,
+        #id_Hip,
+        #id_Knee_measurement,
+        #id_Cleavage_level,
+        #id_Shoulder_measurement,
+        #id_Sleeve_length,
+        #id_Round_sleeve_length,
+        #id_Waist_to_hip,
+        #id_Waist_to_knee,
+        #id_Waist_to_floor{
+            width: 6em;
+        }
+    }
+</style>
+
+<form action="" class="order_form2" id="order_form" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <h3 class="contact-titl">Bio Data Form</h3>
+    {% for bio in bioDataform %}
+        <div style="right: inherit; padding: 0.25em;">{{ bio.label }} {{ bio }}</div> <hr>
+    {%endfor%}
+
+    <h3 class="contact-titl">Guarantor Form</h3>
+    {% for gua in guarantorform %}
+        <div style="right: inherit; padding: 0.25em;">{{ gua.label }} {{ gua }}</div> <hr>
+    {%endfor%}
+
+    <h3 class="contact-titl">Agreement form</h3>
+    {% for agree in agreementform %}
+        <div style="right: inherit; padding: 0.25em;">{{ agree.label }} {{ agree }}</div> <hr>
+    {%endfor%}
+    <button class="order_proceed" id="order_proceed">Proceed</button>
+</form>
+
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends 'mainbase.html' %}
+
+{% block content %}
+<style> 
+    .Mcontainer{
+        height: min(calc(500px + 2rem), calc(250px + 2rem));
+        width: 100%;
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: auto auto auto auto;
+    }
+
+    .invoice,
+    .inventories,
+    .jobs,
+    .staffs{
+        width: auto;
+        height: min(500px, 250px);
+        background: #d4af37;
+        border-radius: 1rem;
+        border: 1px solid rgb(120, 103, 0);
+        padding: 1rem;
+    }
+
+.invoice a,
+.inventories a,
+.jobs a,
+.staffs a{
+    text-decoration: none;
+}
+
+    .top-banner{
+        background: url('{{TopSliderBackground.Site_Upload.url}}');
+        background-repeat: no-repeat;
+        background-size:contain;
+    }
+
+    @media screen and (max-width:500px) {
+        .slider-details{
+            width: 300px;
+        }
+
+        .feed-details{
+            width: 300px;
+        }
+    }
+</style>
+<div class="Mcontainer">
+
+    <div class="invoice">
+        <a href="{% url 'invoice' %}">
+            <h1>Invoice</h1>
+            <blockquote>
+                This is where to view, generate, update and modify  invoices
+            </blockquote>
+        </a>
+    </div>
+
+    <div class="inventories">
+        <a href="http://127.0.0.1:8000/invent/">
+            <h1>Inventories</h1>
+            <blockquote>
+                This is where to view, generate, update and modify  Inventories
+            </blockquote>
+        </a>
+
+    </div>
+
+    <div class="jobs">
+        <a href="http://127.0.0.1:8000/jobs/">
+            <h1>Jobs</h1>
+            <blockquote>
+                This is where to view, update and modify  Jobs
+            </blockquote>
+        </a>
+
+    </div>
+
+    <div class="staffs">
+        <a href="http://127.0.0.1:8000/staffs/">
+            <h1>Staffs</h1>
+            <blockquote>
+                This is where to view, update and modify  Staffs Records
+            </blockquote>
+        </a>
+
+    </div>
+</div>
+
+</div>
+
+{% endblock %}

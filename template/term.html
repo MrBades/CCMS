@@ -1,0 +1,17 @@
+{% extends 'mainbase.html' %}
+
+{% block content %}
+<style>
+    .term-content{
+        height: auto;
+    }
+</style>
+<div class="term-content">
+    
+    <div class="about">
+        {{ term.url }}
+        <img src="{{term.Site_Upload.url}}" alt="Avatar">
+    </div>
+
+</div>
+{% endblock %}

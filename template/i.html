@@ -1,0 +1,301 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>Carew Couture INVOICE</title>
+        <style type="text/css">
+
+            @page{
+                background-image: url('http://carewcouture.pythonanywhere.com/media/sitesIMGS/23/invoice-background.png');
+                background-size: cover;
+                margin-top: 1cm;
+                margin-left: 2.5cm;
+                margin-right: 2.5cm;
+            }
+
+            body {
+                font-weight: 200;
+                font-size: 14px;
+                color: #d4af37;
+                background: #000;
+                padding-right: 2em;
+            }
+            .header {
+                font-size: 14px;
+                font-weight: 100;
+                text-align: center;
+                color: #d4af37;
+            }
+            .title {
+                font-size: 22px;
+                font-weight: 100;
+               /* text-align: right;*/
+               /* padding: 10px 20px 0px 20px;   */
+            }
+            .title span {
+                color: #d4af37;
+            }
+
+            .cnt{
+                font-size: 14px;
+                
+            }
+            .details {
+                height: 150px;
+                width: 100%;
+                padding: 10px 20px 0px 20px;
+                text-align: left !important;
+                /*margin-left: 40%;*/
+            }
+
+            .data{
+                text-align: right;
+            }
+
+            .hrItem {
+                border: none;
+                height: 1px;
+                /* Set the hr color */
+                color: #333; /* old IE */
+                background-color: #fff; /* Modern Browsers */
+            }
+
+table, th, td {
+border: 1px solid #d4af37;
+border-collapse: collapse;
+}
+
+table{
+border-collapse: collapse;
+}
+
+input{
+    border: none;
+}
+        </style>
+
+    </head>
+    <body >
+        <div class='wrapper'>
+            <div class='header'>
+                <img src="http://carewcouture.pythonanywhere.com/media/sitesIMGS/23/banner.jpg" style="height: 80px;" >
+                <p class='title'>INVOICE/RECIEPT</p>
+            </div>
+        <div>
+        <div class='details'>
+            Bill to: <input type="text"  style='width:95%; background:#000; color: #d4af37;' id="name" placeholder="Client Name"> <br>
+            Phone: <input type="text" style='width:95%; background:#000; color: #d4af37;' id="phone" placeholder="Client Phone Number"> <br/>
+            Date: {{today}}<br>
+            Due Date: <input type="text" style='width:95%; background:#000; color: #d4af37;' id="dueDate" placeholder="Due Date"> <br/>
+            <hr class='hrItem' />
+            <table style="height: 40px; border: 1px solid; width: 100%;" id="tab">
+                <tr>
+                    <th style="width: 10%">S/N</th>
+                    <th style="width: 40%;">ITEMS DESCRIPTION</th>
+                    <th style="width: 10%">QTY</th>
+                    <th style="width: 20%;">UNIT PRICE</th>
+                    <th class="data" style=" width: 20%">Price (<input type='text' style='width: auto; background:#000; color: #d4af37;' id="Cur" placeholder="currency e.g USD">)</th>
+                </tr>
+                <tr>
+                    <td style="padding-left: 3px;" id="sn">1</td>
+                    <td style="padding-left: 3px;"><input type='text' style='width:95%; background:#000; color: #d4af37;' id="ItD" placeholder="DESCRIPTION"></td>
+                    <td style="padding-left: 3px;"><input type='number' style='width:95%; background:#000; color: #d4af37;' id="Q01" oninput='InputFunction(30)' placeholder="Quantity"></td>
+                    <td style="padding-left: 3px;"><input type='number' style='width:95%; background:#000; color: #d4af37;' id="U01" oninput='InputFunction(40)' placeholder="UNIT PRICE"></td>
+                    <td class="data"><input type='number' style='width:95%; background:#000; color: #d4af37;' class='price' id="P01" oninput='InputFunction(50)'></td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 1;" colspan="3">Shipping</td>
+                    <td colspan="2" class="data">
+                        <input type="text"  style='width:95%; background:#000; color: #d4af37; text-align: right;' id="shipping" placeholder="Shipping Fee" oninput="InputFunction(60)"> 
+                     </td>
+                </tr>
+                <tr>
+                    <td  style="padding: 1;" colspan="3">Subtotal</td>
+                    <td colspan="2" class="data" id="ST"></td>
+                </tr>
+                <tr>
+                    <td style="padding: 1;" colspan="3">VAT</td>
+                    <td colspan="2" class="data" id="VAT">__</td>
+                </tr>
+                <tr >
+                  <td colspan="3">Total (VAT Inclusive)</td>
+                  <td class="data" colspan="2" id="MT">__</td>
+                </tr>
+            </table> 
+            <br>
+
+            
+            <button id="addButton"> Add Item</button>
+            <button id="submitButton"> Generate PDF Invoice</button>
+                       
+            <table style="height: 40px; width: 100%;">
+                <tr>
+                    <td colspan="2">Amount in Words: 
+                        <input type='text' style='width:95%; background:#000; color: #d4af37; display: inline;' id="AW" placeholder="Amount In Words">
+                    </td>
+                </tr>
+                <tr style="height: 120px;">
+
+                    {% for b in bank %}
+
+                        <td >
+                            ACOUNT DETAILS: <br>
+                            NAME: {{ b.Name }} <br>
+                            ACCOUNT NO: {{ b.Account_Number }}  <br>
+                            BANK: {{ b.Bank }}  <br>
+                            SWIFT CODE: {{ b.Swift_Code }}  <br>
+                            MAIL: {{ b.Mail }}  <br>
+                        </td>
+
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td > </td>
+                </tr>
+                <tr>
+                    <td colspan="2">NOTE: Thank You For Your Patronage</td>
+                </tr>
+            </table> 
+        </div>
+    </div>
+    </body>
+    <script>
+        let name = document.getElementById('name'),
+            phone = document.getElementById("phone"),
+            dueDate = document.getElementById("dueDate"),
+            currency = document.getElementById("Cur"),
+            shipping = document.getElementById("shipping"),
+            addButton = document.getElementById("addButton"),
+            submitButton = document.getElementById("submitButton"),
+            tab = document.getElementById("tab"),
+            sn = document.getElementById("sn"),
+            ItD = document.getElementById("ItD")
+            Q01 = document.getElementById("Q01"),
+            U01 = document.getElementById("U01"),
+            P01 = document.getElementById("P01"),
+            ST = document.getElementById("ST"),
+            VAT = document.getElementById("VAT"),
+            MT = document.getElementById("MT"),
+            AW = document.getElementById("AW");
+        let count = 1;
+        obj = {};
+
+        addButton.addEventListener('click', function(){
+            let serialNumber = Number(sn.innerHTML)
+            var row = tab.insertRow(serialNumber + count);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            var cell4 = row.insertCell(3);
+            var cell5 = row.insertCell(4);
+            let ItDID = "ItD";
+            let itemsId = "ID";
+            let quantityId = "Q";
+            let unitId = "U";
+            let priceId = "P";
+            let newSerial = serialNumber + count;
+
+            cell1.innerHTML =newSerial;
+            cell2.innerHTML = `<input type='text' style='width:95%; background:#000; color:#d4af37' id=${ItDID + newSerial} placeholder="DESCRIPTION">`
+            cell3.innerHTML = `<input type='number' style='width:95%; background:#000; color:#d4af37' id=${quantityId + newSerial} oninput='InputFunction(${3})' placeholder="Quantity">`
+            cell4.innerHTML = `<input type='number' style='width:95%; background:#000; color:#d4af37' id=${unitId + newSerial} oninput='InputFunction(${4})' placeholder="UNIT PRICE">`
+            cell5.innerHTML = `<input type='number' style='width:95%; background:#000; color:#d4af37' class='price' id=${priceId + newSerial} oninput='InputFunction(${5})'>`
+
+            cell2Id = ItDID + newSerial;
+            let cell3Id = quantityId + newSerial,
+                cell4Id = unitId + newSerial,
+                cell5Id = priceId + newSerial;
+
+                // cell1DOM = document.getElementById(cell1Id);
+                cell2DOM = document.getElementById(cell2Id);
+                cell3DOM = document.getElementById(cell3Id);
+                cell4DOM = document.getElementById(cell4Id);
+                cell5DOM = document.getElementById(cell5Id);
+            
+            count++
+        });        
+
+        function InputFunction(input){
+            if (input == 30){
+                P01.value = Number(Q01.value) * Number(U01.value);
+                subTotal(3);
+            }
+            if (input == 40){
+                P01.value = Number(Q01.value) * Number(U01.value);
+                // P01.value = Number(Q01.value) * Number(U01.value);
+                subTotal(3);
+            }
+            if (input == 60){
+                P01.value = Number(Q01.value) * Number(U01.value);
+                subTotal(3);
+            }
+
+            if (input == 3){
+                cell5DOM.value = Number(cell3DOM.value) * Number(cell4DOM.value);
+                subTotal();
+            }
+            if (input == 4){
+                cell5DOM.value = Number(cell3DOM.value) * Number(cell4DOM.value);
+                subTotal();
+            }
+            if (input == 5){
+                // alert(cell5DOM.value)
+            }
+        }
+
+        function subTotal(val){
+            prices = document.querySelectorAll('.price');
+            subTotals = 0;
+            for(i = 0; i < prices.length; i++){
+                subTotals += Number(prices[i].value);
+                if(val == 3){
+                    obj[count] = {ItDID:ItD.value, quantityId:Q01.value, unitId:U01.value, priceId:P01.value}
+            }else{
+                obj[count] = {ItDID:cell2DOM.value, quantityId:cell3DOM.value, unitId:cell4DOM.value, priceId:cell5DOM.value}
+            }
+            }
+            ST.innerHTML = subTotals;
+            VAT.innerHTML = subTotals * 0.06;
+            MT.innerHTML = (subTotals * 1.06) + Number(shipping.value);
+            
+        }
+        submitButton.addEventListener('click', function(){
+            total = {"subT":ST.innerHTML, "VAT":VAT.innerHTML, "mainT":MT.innerHTML}
+
+            order = JSON.stringify(obj);
+            totalJSON = JSON.stringify(total);
+            let n = name.value;
+            let p = phone.value;
+            let awVal = AW.value;
+            let shippingVal = shipping.value;
+            let cur = currency.value;
+            let due = dueDate.value;
+            if (cur == ""){
+                cur = "USD";
+            }
+
+            if (n == ""){
+                n = "No Name";
+            }
+
+            if (p == ""){
+                p = "_______";
+            }
+
+            if (shippingVal == ""){
+                shippingVal = "Not concluded";
+            }
+
+            if(awVal == ""){
+                awVal = ". ";
+            }
+
+            if(due == ""){
+                due = new Date().toDateString();
+            }
+
+            location.replace(`http://carewcouture.pythonanywhere.com/pdfInvoice/${n}/${p}/${order}/${count}/${totalJSON}/${awVal}/${due}/${shippingVal}/${cur}`)
+            
+        })
+    </script>
+</html>

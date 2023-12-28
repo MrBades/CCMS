@@ -1,0 +1,408 @@
+{% extends 'mainbase.html' %}
+
+{% block content %}
+<style>
+    .luxury-area,
+    .bridals-area,
+    .asoebi-area,
+    .bridesmaids-area,
+    .TRW-area,
+    .senator-agbada-area{
+        width: 100%;
+        height: auto;
+        display: none;
+        gap: 15px 15px;
+        grid-template-columns: auto auto auto;
+    }
+
+    .order_proceed:hover{
+        background: #fff;
+        color: #000;
+    }
+
+@media screen and (max-width: 1000px) {    
+    .luxury-area,
+    .bridals-area,
+    .asoebi-area,
+    .bridesmaids-area,
+    .TRW-area,
+    .senator-agbada-area,
+    .gallery-area-container{
+        grid-template-columns: auto auto;
+    }
+
+    .content-section-area{
+        width: 100%;
+    }
+
+    .content-area{
+        padding: 0 auto ;
+    }
+    
+    .widget-area{
+        display: none;
+    }
+
+    .mobile-widget-area{
+        display: block;
+    }
+
+.mobile-widget-area ul li{
+    border-right: 0.25em solid #d4af37 ;
+}
+
+.mobile-widget-area ul li:hover{
+    background:#d4af37 ;
+    color: #ecf0f1;
+    padding: 0.5em 0;
+}
+
+
+.mobile-widget-area ul li:last-child{
+        border-right: none ;
+    }
+
+
+    .mobile-widget-area ul li:first-child{
+        border-right: none;
+    }
+
+    .draw-area{
+        height: 500px;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .content-section-area{
+        width: 100%;
+    }
+    .widget-area{
+        display: none;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .luxury-area,
+    .bridals-area,
+    .asoebi-area,
+    .bridesmaids-area,
+    .TRW-area,
+    .senator-agbada-area,
+    .gallery-area-container{
+        grid-template-columns: auto;
+    }
+}
+
+.Categories-dropdown a{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: large;
+    font-weight: 600;
+    font-variant: small-caps;
+    color: #d4af37;
+    cursor: pointer;
+    text-decoration: none;
+}
+</style>
+
+<div class="mobile-widget-area">
+        
+    <ul class="main-Categories">
+        <li class="Categories-dropdown" id="cd" onclick="cdClick(), showMe('gallery-area')">Categories</li>
+        <li>
+            
+            <ul class="sub-Categories" id="sc">
+                <li onclick="showMe('luxury-area')">Custom(Luxury)</li>
+                <li onclick="showMe('bridals-area')">Bridals(Wedding Dress)</li>
+                <li onclick="showMe('asoebi-area')">Asoebi</li>
+                <li onclick="showMe('bridesmaids-area')">Bridesmaids</li>
+                <li onclick="showMe('RTW-area')">RTW(Ready To Wear)</li>
+                <li onclick="showMe('senator-agbada-area')">Senator/Agbada</li>
+            </ul>
+            
+        </li>
+        <li class="Categories-dropdown" onclick="loadNext('Upload')">
+            <b>Upload a Design</b>
+        </li>
+        <li class="Categories-dropdown" onclick="showMe('draw-area')">
+            Draw a Design
+        </li>
+        <li class="Categories-dropdown" onclick="loadNext('none')">
+            Request
+        </li>
+        
+    </ul>
+
+</div>
+
+<div class="content-area" id="content-area" style="height: auto">
+
+    <div class="widget-area">
+        
+        <ul class="widget-Categories">
+            <li class="Categories-dropdown" id="cd" onmouseover="wcdOver()" onmouseout="wcdOut()" onclick="showMe('gallery-area')">Categories</li>
+            <li>
+                <ul class="w-sub-Categories" id="wsc">
+                    <li  onmouseover="wcdOver()" onmouseout="wcdOut()" onclick="showMe('luxury-area')">Custom(Luxury)</li>
+                    <li  onmouseover="wcdOver()" onmouseout="wcdOut()" onclick="showMe('bridals-area')">Bridals(Wedding Dress)</li>
+                    <li  onmouseover="wcdOver()" onmouseout="wcdOut()" onclick="showMe('asoebi-area')">Asoebi</li>
+                    <li  onmouseover="wcdOver()" onmouseout="wcdOut()" onclick="showMe('bridesmaids-area')">Bridesmaids</li>
+                    <li  onmouseover="wcdOver()" onmouseout="wcdOut()" onclick="showMe('RTW-area')">TRW(Ready To Wear)</li>
+                    <li  onmouseover="wcdOver()" onmouseout="wcdOut()" onclick="showMe('senator-agbada-area')">Senator/Agbada</li>
+                </ul>
+            </li>
+            <li class="wc Categories-dropdown" onclick="loadNext('Upload')">
+                Upload a Design
+            </li>
+            <li class="wc Categories-dropdown" onclick="showMe('draw-area')">
+                Draw a Design
+            </li>
+            <li class="wc Categories-dropdown" onclick="loadNext('none')" >
+                Request
+            </li>
+        </ul>
+
+    </div>
+
+    <div class="content-section-area">            
+
+        <div class="luxury-area products-area" id="luxury-area">
+            {% for gal in galleries %}
+                
+                <div class="gallery-card cardall">
+                        
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front" style="display: flex;">
+                            <p style="position: absolute; color: #000; bottom: 0; width: 100%;">{{ gal.Name }}</p>
+                            <img src="{{gal.Site_Upload.url}}" alt="Avatar" style="width:100%;height:90%; border-radius: 1em;">
+                        </div>
+                        <div class="flip-card-back">
+                            <h3 >{{ gal.Name }}</h3> {{searchG}}
+                            <blockquote>
+                                {{ gal.Document_Description }}
+                            </blockquote>
+                            <a href="{% url 'order'  design=gal.Name %}">
+                                <button class="order_proceed" id="order_proceed">Request</button>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+            {% endfor %}	
+
+        </div>
+
+        <div class="bridals-area products-area" id="bridals-area">
+            {% for gal in galleries %}
+                
+                <div class="gallery-card cardall">
+                        
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front" style="display: flex;">
+                            <p style="position: absolute; color: #000; bottom: 0; width: 100%;">{{ gal.Name }}</p>
+                            <img src="{{gal.Site_Upload.url}}" alt="Avatar" style="width:100%;height:90%; border-radius: 1em;">
+                        </div>
+                        <div class="flip-card-back">
+                            <h3 >{{ gal.Name }} </h3>
+                            <blockquote>
+                                {{ gal.Document_Description }}
+                            </blockquote>
+                                <a href="{% url 'order'  design=gal.Name %}">
+                                    <button class="order_proceed" id="order_proceed">Request</button>
+                                </a>
+                        </div>
+                    </div>
+    
+                </div>
+
+            {% endfor %}	
+
+        </div>
+
+        <div class="asoebi-area products-area" id="asoebi-area">
+            {% for gal in galleries %}
+                
+                <div class="gallery-card cardall">
+                        
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front" style="display: flex;">
+                            <p style="position: absolute; color: #000; bottom: 0; width: 100%;">{{ gal.Name }}</p>
+                            <img src="{{gal.Site_Upload.url}}" alt="Avatar" style="width:100%;height:90%; border-radius: 1em;">
+                        </div>
+                        <div class="flip-card-back">
+                            <h3 >{{ gal.Name }} </h3>
+                            <blockquote>
+                                {{ gal.Document_Description }}
+                            </blockquote>
+                                <a href="{% url 'order'  design=gal.Name %}">
+                                    <button class="order_proceed" id="order_proceed">Request</button>
+                                </a>
+                        </div>
+                    </div>
+    
+                </div>
+
+            {% endfor %}	
+
+        </div>
+
+        <div class="bridesmaids-area products-area" id="bridesmaids-area">
+            {% for gal in galleries %}
+                
+                <div class="gallery-card cardall">
+                        
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front" style="display: flex;">
+                            <p style="position: absolute; color: #000; bottom: 0; width: 100%;">{{ gal.Name }}</p>
+                            <img src="{{gal.Site_Upload.url}}" alt="Avatar" style="width:100%;height:90%; border-radius: 1em;">
+                        </div>
+                        <div class="flip-card-back">
+                            <h3 >{{ gal.Name }} </h3>
+                            <blockquote>
+                                {{ gal.Document_Description }}
+                            </blockquote>
+                                <a href="{% url 'order'  design=gal.Name %}">
+                                    <button class="order_proceed" id="order_proceed">Request</button>
+                                </a>
+                        </div>
+                    </div>
+    
+                </div>
+
+            {% endfor %}	
+
+        </div>
+
+        <div class="TRW-area products-area" id="TRW-area">
+            {% for gal in galleries %}
+                
+                <div class="gallery-card cardall">
+                        
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front" style="display: flex;">
+                            <p style="position: absolute; color: #000; bottom: 0; width: 100%;">{{ gal.Name }}</p>
+                            <img src="{{gal.Site_Upload.url}}" alt="Avatar" style="width:100%;height:90%; border-radius: 1em;">
+                        </div>
+                        <div class="flip-card-back">
+                            <h3 >{{ gal.Name }} </h3>
+                            <blockquote>
+                                {{ gal.Document_Description }}
+                            </blockquote>
+                                <a href="{% url 'order'  design=gal.Name %}">
+                                    <button class="order_proceed" id="order_proceed">Request</button>
+                                </a>
+                        </div>
+                    </div>
+    
+                </div>
+
+            {% endfor %}	
+
+        </div>
+
+        <div class="senator-agbada-area products-area" id="senator-agbada-area">
+            {% for gal in galleries %}
+                
+                <div class="gallery-card cardall">
+                        
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front" style="display: flex;">
+                            <p style="position: absolute; color: #000; bottom: 0; width: 100%;">{{ gal.Name }}</p>
+                            <img src="{{gal.Site_Upload.url}}" alt="Avatar" style="width:100%;height:90%; border-radius: 1em;">
+                        </div>
+                        <div class="flip-card-back">
+                            <h3 >{{ gal.Name }} </h3>
+                            <blockquote>
+                                {{ gal.Document_Description }}
+                            </blockquote>
+                                <a href="{% url 'order'  design=gal.Name %}">
+                                    <button class="order_proceed" id="order_proceed">Request</button>
+                                </a>
+                        </div>
+                    </div>
+    
+                </div>
+
+            {% endfor %}	
+
+        </div>
+
+        <div class="gallery-area products-area" id="gallery-area">
+
+            <div class="gallery-area-container">
+                
+                {% for gal in galleries %}
+                    
+                    <div class="gallery-card cardall">
+                            
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front" style="display: flex;">
+                                <p style="position: absolute; color: #000; bottom: 0; width: 100%;">{{ gal.Name }}</p>
+                                <img src="{{gal.Site_Upload.url}}" alt="Avatar" style="width:100%;height:90%; border-radius: 1em;">
+                            </div>
+                            <div class="flip-card-back">
+                                <h3 >{{ gal.Name }} </h3>
+                                <blockquote>
+                                    {{ gal.Document_Description }}
+                                </blockquote>
+                                    <a href="{% url 'order'  design=gal.Name %}">
+                                        <button class="order_proceed" id="order_proceed">Request</button>
+                                    </a>
+                            </div>
+                        </div>
+        
+                    </div>
+
+                {% endfor %}	
+
+            </div>
+
+        </div>
+
+        <div class="upload-area products-area" id="upload-area">
+            <form action="" method="post"  enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ upload.as_p }}
+                <button class="sub_btn"> sSubscribe</button>
+            </form>
+        </div>
+
+        <div class="draw-area products-area" id="draw-area">
+            <div class="canvas-option">
+                <input type="range" id="points" name="points" min="1" max="100" onchange="showVal()" value="1"> 
+                <input type="text" id="valBox" oninput="updateVal()">
+                <input type="button" id="Black" value="Black" onclick="pencilColor('Black')" style="background: Black; color: #fff; border-style: none; padding: 3px; border-radius: 5px;">
+                <input type="button" id="Red" value="Red" onclick="pencilColor('Red')" style="background: Red; border-style: none; padding: 3px; border-radius: 5px;">
+                <input type="button" id="Yellow" value="Yellow" onclick="pencilColor('Yellow')" style="background: Yellow; border-style: none; padding: 3px; border-radius: 5px;">
+                <input type="button" id="Pink" value="Pink" onclick="pencilColor('Pink')" style="background: Pink; border-style: none; padding: 3px; border-radius: 5px;">
+                <input type="button" id="Brown" value="Brown" onclick="pencilColor('Brown')" style="background: #964b00; border-style: none; padding: 3px; border-radius: 5px;">
+                <input type="button" id="Orange" value="Orange" onclick="pencilColor('Orange')" style="background: Orange; border-style: none; padding: 3px; border-radius: 5px;">
+                <input type="button" id="Green" value="Green" onclick="pencilColor('Green')" style="background: Green; border-style: none; padding: 3px; border-radius: 5px;">
+                <input type="button" id="Blue" value="Blue" onclick="pencilColor('Blue')" style="background: Blue; border-style: none; padding: 3px; border-radius: 5px;">
+                <input type="button" id="Eraser" value="Eraser" onclick="pencilColor('Eraser')" style="background: #ecf0f1; border: 1px solid #0000009a; padding: 3px; border-radius: 5px;">
+                
+            </div>
+
+            <div class="canvas-container">
+
+                <canvas id="canvas" ></canvas>
+                
+            </div>
+
+        </div>
+
+        <div class="best-selling" id="best-selling">
+
+
+        </div>
+
+    </div>
+
+    <script>
+        function loadNext(loc){
+            location.replace(`http://127.0.0.1:8000/order/${loc}`)
+        }
+    </script>
+</div>
+{% endblock %}

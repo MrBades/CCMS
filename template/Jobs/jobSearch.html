@@ -1,0 +1,94 @@
+{% extends 'mainbase.html' %}
+{% block content %}
+        <style type="text/css">
+            .IIContainer{
+                width: 100%;
+                height: auto;
+                display: grid;
+                gap: 1rem;
+                grid-template-rows: auto;
+            }
+
+            .create{
+                padding: 1rem;
+                border-radius: 0.5rem;
+                border: 1px solid rgb(120, 103, 0);
+                background: #d4af37;
+                width: 7.5rem;
+                float: right;
+            }
+            .create:hover{
+                background: rgb(120, 103, 0);
+                color: aliceblue;
+            }
+
+            .invoice{
+                width: calc(100% - 2rem);
+                height: auto;
+                background: #d4af37;
+                border-radius: 0.5rem;
+                border: 1px solid rgb(120, 103, 0);
+                padding: 0.25rem;
+            }
+
+            .invoice1:hover{
+                background: rgb(120, 103, 0);
+                color: aliceblue;
+            }
+            h1{
+                float: left;
+            }
+            .buttons-container{
+                width: min(150px, 100px);
+                height: 100%;
+                float: right;
+            }
+            .IIButton{
+                width: 100px;
+                height: calc(100% / 3);
+                background: #d4af37;
+                border: 1px solid rgb(120, 103, 0);
+            }
+            .IIButton:first-child{
+                border-top-right-radius: 0.5rem;
+            }
+            .IIButton:last-child{
+                border-bottom-right-radius: 0.5rem;
+            }
+            .IIButton:hover{
+                border: 1px solid rgb #d4af37;
+                background: rgb(120, 103, 0);
+                color: aliceblue;
+                font-size: medium;
+                font-weight: 500;
+            }
+        </style>
+
+    <div class="IIContainer">
+        <input type="button" value="Add New Job" class="create" onclick="cJobs()">
+        {{ jobs.Client_Name }}
+        {{ jobs.Date }}
+        {% for job in jobs %}   
+            <div class="invoice">
+                <h1>{{ job.Client_Name }} || {{ job.id }}</h1>
+                <div class="buttons-container">
+                    <input type="button" value="View" class="IIButton" onclick="IIprocess('view', '{{job.id}}')">
+                    <input type="button" value="Edit" class="IIButton" onclick="IIprocess('edit', '{{job.id}}')">
+                    <input type="button" value="Delete" class="IIButton" onclick="IIprocess('delete', '{{job.id}}')">
+                </div>
+            </div>
+        {%endfor%}
+    </div>
+
+    <script>
+       
+       function IIprocess(which, ID){
+        if(which === "view")
+            {location.replace(`http://127.0.0.1:8000/jobs/view/${ID}`)}
+        if(which === "edit")
+            {location.replace(`http://127.0.0.1:8000/jobs/edit/${ID}`)}
+        if(which === "delete")
+            {location.replace(`http://127.0.0.1:8000/jobs/delete/${ID}/None`)}
+       }
+    </script>
+{% endblock %}

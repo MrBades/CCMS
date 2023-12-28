@@ -1,0 +1,63 @@
+{% extends 'mainbase.html' %}
+
+{% block content %}
+<style>
+    #id_Name,
+    #id_Email,
+    #id_Phone{
+        width: 90%;
+        height: auto;
+        margin: 2%;
+        padding: 1em;
+        border-radius: 0.5em;
+        border: 1px solid rgb(120, 103, 0);
+        background: rgba(218, 185, 0, 0.103);
+    }
+
+#id_Message{
+    width: 90%;
+    height: 180px;
+    padding: 1em;
+    margin: 2%;
+    border-radius: 0.5em;
+    border: 1px solid rgb(120, 103, 0);
+    background: rgba(220,185,0,0.2)
+}
+    @media screen and (max-width:600px){
+        .contact-map{
+            grid-column: 1 / 11;
+            grid-row: 3 / 5;
+            display: block;
+        }
+    }
+</style>
+
+<div class="contact-title-container">
+    <h1 class="contact-title">Get in touch</h1>
+    {% for message in messages %}
+        <p>{{message}}</p>
+        {% endfor %} 
+</div>
+
+<div class="contact">
+
+    <form class="contact-form" id="contacForm" method="POST">
+        {% csrf_token %}
+        {{ Form.Name }}
+        {{ Form.Phone }}
+        {{ Form.Email }}
+        {{ Form.Message }}
+        <div class="col-sm-col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <button name="submit" class="send_btn" id="send">Send</button>
+        </div>
+        
+    </form>
+
+    <div class="contact-map">
+        <div class="map-responsive">
+            <iframe src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA0s1a7phLN0iaD6-UE7m4qP-z21pH0eSc&q=Eiffel+Tower+Paris+France" width="600" height="432" frameborder="0" style="border:0; width: 100%;" allowfullscreen></iframe>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,136 @@
+{% extends 'mainbase.html' %}
+{% block content %}
+        <style type="text/css">
+            .IIContainer{
+                width: 100%;
+                height: auto;
+                display: grid;
+                gap: 1rem;
+                grid-template-rows: auto;
+            }
+
+            .create{
+                padding: 1rem;
+                border-radius: 0.5rem;
+                border: 1px solid rgb(120, 103, 0);
+                background: #d4af37;
+                width: 7.5rem;
+                float: right;
+            }
+            .create:hover{
+                background: rgb(120, 103, 0);
+                color: aliceblue;
+            }
+
+            .invoice{
+                width: calc(100% - 2rem);
+                height: auto;
+                background: #d4af37;
+                border-radius: 0.5rem;
+                border: 1px solid rgb(120, 103, 0);
+                padding: 0.25rem;
+            }
+
+            .invoiceM{
+                display: none;
+            }
+
+            .invoice1:hover{
+                background: rgb(120, 103, 0);
+                color: aliceblue;
+            }
+            h1{
+                float: left;
+            }
+            .buttons-container{
+                width: min(150px, 100px);
+                height: 100%;
+                float: right;
+            }
+            .IIButton{
+                width: 100px;
+                height: calc(100% / 3);
+                background: #d4af37;
+                border: 1px solid rgb(120, 103, 0);
+            }
+            .IIButton:first-child{
+                border-top-right-radius: 0.5rem;
+            }
+            .IIButton:last-child{
+                border-bottom-right-radius: 0.5rem;
+            }
+            .IIButton:hover{
+                border: 1px solid rgb #d4af37;
+                background: rgb(120, 103, 0);
+                color: aliceblue;
+                font-size: medium;
+                font-weight: 500;
+            }
+        </style>
+
+<div class="IIContainer">
+        <input type="button" value="Add New Items" class="create" onclick="cInvoice()">
+        {% for item in items %}
+       
+            <div class="invoice invoiceM" id="{{item.category}}" onclick="show('{{item.category}}')">
+                <h1>{{item.color}}</h1>
+                <span id="{{item.category}}span"></span>
+                <span id="{{item.category}}count">{{item.category}}</span>
+                <script>
+                    
+                </script>
+                <div class="buttons-container">
+                    <input type="button" value="View" class="IIButton" onclick="IIprocess('view', '{{item.id}}')">
+                    <input type="button" value="Edit" class="IIButton" onclick="IIprocess('edit', '{{item.id}}')">
+                    <input type="button" value="Delete" class="IIButton" onclick="alert('NOT NOW PLEASE')">
+                </div>
+            </div> 
+            <script>
+            
+        </script>
+        {%endfor%}
+
+</div>
+
+    <script>
+        let mesh = document.querySelectorAll("#Mesh")
+        let quantity = document.getElementById('Meshspan')
+        let categories = document.querySelectorAll('[id*="count"]')
+        let categoriesArray = [];
+        let parentArray = [];
+
+        function cInvoice(){
+            location.replace(`{% url 'newInvent' %}`)
+        }
+       
+       function IIprocess(which, ID){
+        if(which === "view")
+            {location.replace(`http://127.0.0.1:8000/invent/view/${ID}`)}
+        if(which === "edit")
+            {location.replace(`http://127.0.0.1:8000/invent/edit/${ID}`)}
+        if(which === "delete")
+            {location.replace(`http://127.0.0.1:8000/invent/delete/${ID}/None`)}
+       }
+
+       for(i = 0; i < mesh.length; i++){
+        // mesh[i].setAttribute('style', 'display: none');
+       }
+       
+        for(i = 0; i < categories.length; i++){
+            if(!categoriesArray.includes(categories[i].innerHTML)){
+                categoriesArray.push(categories[i].innerHTML);
+                categories[i].parentNode.setAttribute('style', 'background: rgb(163, 155, 15)');
+                categories[i].parentNode.classList.toggle("invoiceM");
+            }
+            
+        }
+        function show(id){
+            let myNode = document.querySelectorAll(`#${id}`)
+            
+                for(i = 0; i < myNode.length; i++){
+                    myNode[i].classList.toggle("invoiceM")
+                }
+        }
+        
+    </script>
+{% endblock %}

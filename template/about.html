@@ -1,0 +1,114 @@
+{% extends 'mainbase.html' %}
+
+{% block content %}
+<style>
+
+    .about-content{
+        height: auto;
+        width: 100%;
+        display: grid;
+        gap: 1em 1em;
+        grid-template-columns:  repeat(4, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+            background-color: #fef4ec;
+    }
+
+    .about,
+    .gallery{
+        height: 30em;
+        width: 48;
+    }
+
+    .about{
+        grid-column: 1 / 3;
+        grid-row: 1 / 5;
+    }
+
+    .gallery{
+        grid-column: 3 / 5;
+        grid-row: 1 / 5;
+    background: url('{{AboutIMG.Site_Upload.url}}');
+    }
+    
+    .about-header{
+        width: 100%;
+        float: left;
+        font-size: 44px;
+        color: #252525;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .about-text{
+        width: 100%;
+        float: left;
+        font-size: 1em;
+        color: #252525;
+        margin: 0px;
+    }
+
+    .contact-btn{
+        width: 170px;
+        float: left;
+        padding-top: 30px;
+    }
+
+    .contact-btn a{
+        width: 100%;
+        float: left;
+        font-size: 16px;
+        color: #ffffff;
+        background-color: #363636;
+        text-align: center;
+        padding: 10px 0px;
+        border-radius: 5px;
+        font-weight: bold;
+        text-transform: uppercase;
+        text-decoration: none;
+    }
+
+    .contact-btn a:hover{
+        background: #fef4ec;
+        color: #363636;
+    }
+
+    @media screen and (max-width: 700px) {
+        .about-content{
+            grid-template-columns: auto;
+            width: 100%;
+            align-items: center;
+        }
+
+.about{
+    grid-column: 1 / 5;
+    grid-row: 1 / 3;
+}
+
+.gallery{
+    grid-column: 1 / 5;
+    grid-row: 3 / 5;
+}
+    }
+</style>
+<div class="about-content">
+    
+    <div class="about">
+        <h2 class="about-header">Carew Couture</h2>
+        <p class="about-text">
+            CarewCouture Is a Brand That Satisfies the Needs of Kings and Queens….
+            We Preach Neatness and Perfect Fit…. 
+            Our Major Aim Is to Always Put a Smile on The Face of Our Clients and We Don’t Plan to Make That Stop. 
+            Your Satisfaction Has Always Been Our Major Priority and It Will Always Be. 
+            Please Contact Us to Book an Appointment or Rather to Communicate on How We Are to Make Your Look Gorgeous for That Event or Your Big Day. 
+            We Make Just About Anything…. Thank You and We Solely Look Forward to Your Patronage, A Trial Will Definitely Convince You.
+
+        </p>
+        <div class="contact-btn">
+            <a href="{% url 'contact' %}">Contact Us</a>
+        </div>
+    </div>
+    <div class="gallery">
+    </div>
+
+</div>
+{% endblock %}

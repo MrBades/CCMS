@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>Carew Couture INVOICE</title>
+        <style type="text/css">
+
+            body {
+                font-weight: 200;
+                font-size: 14px;
+                color: #d4af37;
+                background: #000;
+                overflow:hidden;
+                padding-right: 2em;
+            }
+            .header {
+                font-size: 14px;
+                font-weight: 100;
+                text-align: center;
+                color: #d4af37;
+            }
+            .title {
+                font-size: 22px;
+                font-weight: 100;
+               /* text-align: right;*/
+               /* padding: 10px 20px 0px 20px;   */
+            }
+            .title span {
+                color: #d4af37;
+            }
+
+            .cnt{
+                font-size: 14px;
+                
+            }
+            .details {
+                height: 150px;
+                width: 100%;
+                padding: 10px 20px 0px 20px;
+                text-align: left !important;
+                /*margin-left: 40%;*/
+            }
+
+            .data{
+                text-align: right;
+            }
+
+            .hrItem {
+                border: none;
+                height: 1px;
+                /* Set the hr color */
+                color: #333; /* old IE */
+                background-color: #fff; /* Modern Browsers */
+            }
+
+table, th, td {
+border: 1px solid #d4af37;
+border-collapse: collapse;
+}
+
+table{
+border-collapse: collapse;
+}
+
+        </style>
+
+    </head>
+    <body >
+        <div class='wrapper'>
+            <div class='header'>
+                <img src="http://carewcouture.pythonanywhere.com/media/sitesIMGS/23/banner.jpg" style="height: 80px;" >
+                <p class='title'>INVOICE/RECIEPT</p>
+            </div>
+        <div>
+        <div class='details'>
+            Bill to: {{customer_name}} <br>
+            Phone: {{amount}} <br/>
+            Date: {{today}} <br>
+            Due Date: {{today}}
+            <hr class='hrItem' />
+            <table style="height: 40px; border: 1px solid; width: 100%;">
+                <tr>
+                    <th style="width: 10%">S/N</th>
+                    <th style="width: 40%;">ITEMS DESCRIPTION</th>
+                    <th style="width: 10%">QTY</th>
+                    <th style="width: 20%;">UNIT PRICE</th>
+                    <th class="data" style=" width: 20%">Price</th>
+                </tr>
+                <tr>
+                    <td style="padding-left: 3px;">1</td>
+                    <td style="padding-left: 3px;">{{ details }}</td>
+                    <td style="padding-left: 3px;">1</td>
+                    <td style="padding-left: 3px;">{{invoice.Amount}} {{invoice.Curency}}</td>
+                  <td class="data" style="padding: 0.25em;">{{invoice.Amount}} {{invoice.Curency}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 1;" colspan="3">Shipping</td>
+                    <td colspan="2" class="data">{{invoice.Shipping}} {{invoice.Curency}}</td>
+                </tr>
+                <tr>
+                    <td  style="padding: 1;" colspan="3">Subtotal</td>
+                    <td colspan="2" class="data">{{invoice.Subtotal}} {{invoice.Curency}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 1;" colspan="3">VAT</td>
+                    <td colspan="2" class="data">{{invoice.VAT}} {{invoice.Curency}}</td>
+                </tr>
+                <tr >
+                  <td colspan="3">Total (VAT Inclusive)</td>
+                  <td class="data" colspan="2">{{invoice.Total}} {{invoice.Curency}}</td>
+                </tr>
+            </table> 
+            <br>
+                       
+            <table style="height: 40px; width: 100%;">
+                <tr>
+                    <td colspan="2">Amount in Words:
+                    </td>
+                </tr>
+                <tr style="height: 120px;">
+
+                    {% for b in bank %}
+
+                        <td >
+                            <!-- ACOUNT DETAILS: <br>
+                            NAME: {{ b.Name }} <br>
+                            ACCOUNT NO: {{ b.Account_Number }}  <br>
+                            BANK: {{ b.Bank }}  <br>
+                            SWIFT CODE: {{ b.Swift_Code }}  <br>
+                            MAIL: {{ b.Mail }}  <br> -->
+                        </td>
+
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td > </td>
+                </tr>
+                <tr>
+                    <td colspan="2">NOTE: Thank You For Your Patronage</td>
+                </tr>
+            </table> 
+        </div>
+    </div>
+    </body>
+</html>

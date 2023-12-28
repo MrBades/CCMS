@@ -1,0 +1,441 @@
+{% extends 'mainbase.html' %}
+
+{% block content %}
+<style>
+    .order_gallery{
+        height: auto;
+        width: auto;
+        gap: 1em 1em;
+        grid-template-columns: auto;
+        grid-template-rows: auto;
+        position: absolute;
+        background: #fff;
+        float: right;
+        border-radius: 0.5em;
+        right: 30%;
+        top: 30%;
+        border: 2px solid #d4af37;
+        position: fixed;
+        box-shadow: 1px 2px 3px #d4af37;
+        display: none;
+    }
+
+    .order_gallery h3{
+        font-size: large;
+        font-variant: small-caps;
+        text-align: center;
+    }
+
+    .order_gallery .atention_op{
+        background: #d4af37;
+        padding: 1em ;
+        margin: 0.5em;
+    }
+
+    .order_gallery:hover .atention_op:hover{
+        border-radius: 0.5em;
+    }
+    #attntion_button{
+        float: right;
+    }
+</style>
+
+<!-- MOBILE 360px TO 450px -->
+<style>
+
+    @media screen and (max-width:450px) {
+        #id_Expecting_Date{
+            width: fit-content;
+        }
+        
+        #id_Shoulder_to_nipple_point,
+        #id_Shoulder_to_under_burst,
+        #id_Shoulder_to_half_length,
+        #id_Shoulder_to_hip_part,
+        #id_Shoulder_to_knee_length,
+        #id_Shoulder_to_dress_length,
+        #id_Burst,
+        #id_Upper_burst,
+        #id_Under_Burst,
+        #id_High_waist_measurement,
+        #id_Waist_measurement,
+        #id_High_hip,
+        #id_Hip,
+        #id_Knee_measurement,
+        #id_Cleavage_level,
+        #id_Shoulder_measurement,
+        #id_Sleeve_length,
+        #id_Round_sleeve_length,
+        #id_Waist_to_hip,
+        #id_Waist_to_knee,
+        #id_Waist_to_floor{
+            width: 8em;
+        }
+    }
+    @media screen and (max-width:400px) {
+
+        .Mesurements_div{
+            width: 100%;
+        }
+
+        #id_Expecting_Date{
+            width: fit-content;
+        }        
+
+        #id_Shoulder_to_nipple_point,
+        #id_Shoulder_to_under_burst,
+        #id_Shoulder_to_half_length,
+        #id_Shoulder_to_hip_part,
+        #id_Shoulder_to_knee_length,
+        #id_Shoulder_to_dress_length,
+        #id_Burst,
+        #id_Upper_burst,
+        #id_Under_Burst,
+        #id_High_waist_measurement,
+        #id_Waist_measurement,
+        #id_High_hip,
+        #id_Hip,
+        #id_Knee_measurement,
+        #id_Cleavage_level,
+        #id_Shoulder_measurement,
+        #id_Sleeve_length,
+        #id_Round_sleeve_length,
+        #id_Waist_to_hip,
+        #id_Waist_to_knee,
+        #id_Waist_to_floor{
+            width: 7em;
+        }
+    }    
+    
+    @media screen and (max-width:360px) {
+        #id_Expecting_Date,
+        #id_Measurement_pref,
+        #id_Design_pref{
+            width: fit-content;
+        }
+
+        #id_Shoulder_to_nipple_point,
+        #id_Shoulder_to_under_burst,
+        #id_Shoulder_to_half_length,
+        #id_Shoulder_to_hip_part,
+        #id_Shoulder_to_knee_length,
+        #id_Shoulder_to_dress_length,
+        #id_Burst,
+        #id_Upper_burst,
+        #id_Under_Burst,
+        #id_High_waist_measurement,
+        #id_Waist_measurement,
+        #id_High_hip,
+        #id_Hip,
+        #id_Knee_measurement,
+        #id_Cleavage_level,
+        #id_Shoulder_measurement,
+        #id_Sleeve_length,
+        #id_Round_sleeve_length,
+        #id_Waist_to_hip,
+        #id_Waist_to_knee,
+        #id_Waist_to_floor{
+            width: 6em;
+        }
+    }
+</style>
+<div class="contact-title-container">
+    {% if design == "none" %}
+        <h3 class="contact-titl"> You Have not choose from our Gallery</h3>
+    {% endif %}
+    {% if design != "none" %}
+        <h3 class="contact-titl">You Chosed {{ design }}</h3>
+        <style>
+            Design_pref_div{display: none;}
+        </style>
+        <script></script>
+    {% endif %}
+</div>
+
+<div class="order_gallery" id="order_gallery">
+    <h3>Atention Please!</h3>
+    <blockquote>Do you really want to go back to Gallery and Chose?</blockquote>
+    <a href="{% url 'gallery' category='none' %}"><button class="atention_op">Yes (I want to Chose)</button></a>
+    <button class="atention_op" id="attntion_button">No (I will Upload)</button>
+</div>
+
+
+
+<form action="" class="order_form2" id="order_form" method="post"   enctype="multipart/form-data">
+    {% csrf_token %}
+    <!-- {{ orderForm.as_p }} -->
+    <div class="order_form_div1" id="order_form_div1">
+
+        <div class="Mesurements_div" id="Client_Name_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Client Name
+            </label>
+            {{ orderForm.Client_Name }}
+        </div>
+
+        <div class="Mesurements_div" id="Design_div" >
+            <label class="Design_label" for="id_Design" id="Design_label" >
+                Design
+            </label>
+            {{ orderForm.Design }}
+        </div>
+
+        <script>
+            var design = '{{design}}'
+            if(design != 'none'){
+                document.getElementById("id_Design").value= design;
+            }
+        </script>
+
+        <div class="Mesurements_div" id="Client_Phone_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Client Phone Number
+            </label>
+            {{ orderForm.Client_C_Number }}
+        </div>
+
+        <div class="Mesurements_div" id="Client_Email_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Client Email
+            </label>
+            {{ orderForm.Client_Email }}
+        </div>
+
+        <div class="Mesurements_div" id="Material_pref_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Material Preference
+            </label>
+            {{ orderForm.Material_pref }}
+        </div>
+
+        <div class="Mesurements_div" id="Color_pref_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Color Preference
+            </label>
+            {{ orderForm.Color_pref }}
+        </div>
+
+        <div class="Mesurements_div" id="Measurement_pref_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Measurement Preference
+            </label>
+            {{ orderForm.Measurement_pref }}
+        </div>
+
+        <div class="Mesurements_div" id="Design_pref_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Design Preference
+            </label>
+            {{ orderForm.Design_pref }}
+        </div>
+        {% if design != "none" %}
+            <style>
+                #Design_pref_div{display: none;}
+            </style>
+        {% endif %}
+
+        <div class="Mesurements_div" id="Booking_Date_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Booking Date
+            </label>
+            {{ orderForm.Booking_Date }}
+        </div>
+
+        <div class="Mesurements_div" id="Expecting_Date_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                EDD (Expected Date of Delivery)
+            </label>
+            {{ orderForm.Expecting_Date }}
+        </div>
+
+        <div class="Mesurements_div" id="Upload_Design_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Upload Design
+            </label>
+            {{ orderForm.Upload_Design }}
+        </div>
+        
+        {% if design == "Upload" %}
+            <style>
+                #Design_pref_div,
+                #id_Mesurement_Details{display: none;}
+                #Upload_Design_div,
+                #Design_Details_div1,
+                #id_Design_Details{display: block;}
+                #id_Design_Details{width: 95%;}
+            </style>
+        {% endif %}
+
+        <div class="Mesurements_div" id="Upload_Mesurement_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Upload Mesurement
+            </label>
+            {{ orderForm.Upload_Mesurement }}
+        </div>
+
+        <div class="Mesurements_div" id="Design_Details_div1" >
+            {{ orderForm.Mesurement_Details }}
+
+            {{ orderForm.Design_Details }}
+        </div>
+        
+    </div>
+
+    <div class="order_form_div2" id="order_form_div2">
+
+        <div class="Mesurements_div" id="Shoulder_to_nipple_point_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Shoulder to Nipple Point
+            </label>
+            {{ orderForm.Shoulder_to_nipple_point }}
+        </div>
+
+        <div class="Mesurements_div" id="Shoulder_to_under_burst_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Shoulder to Under Burst
+            </label>
+            {{ orderForm.Shoulder_to_under_burst }}
+        </div>
+
+        <div class="Mesurements_div" id="Shoulder_to_half_length_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Shoulder to Half Length
+            </label>
+            {{ orderForm.Shoulder_to_half_length }}
+        </div>
+
+        <div class="Mesurements_div" id="Shoulder_to_hip_part_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Shoulder to Hip Part
+            </label>
+            {{ orderForm.Shoulder_to_hip_part }}
+        </div>
+
+        <div class="Mesurements_div" id="Shoulder_to_knee_length_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Shoulder to Knee Length
+            </label>
+            {{ orderForm.Shoulder_to_knee_length }}
+        </div>
+
+        <div class="Mesurements_div" id="Shoulder_to_dress_length_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Shoulder to Dress Length
+            </label>
+            {{ orderForm.Shoulder_to_dress_length }}
+        </div>
+
+        <div class="Mesurements_div" id="Burst_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Burst
+            </label>
+            {{ orderForm.Burst }}
+        </div>
+
+        <div class="Mesurements_div" id="Upper_burst_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Upper Burst
+            </label>
+            {{ orderForm.Upper_burst }}
+        </div>
+
+        <div class="Mesurements_div" id="Under_Burst_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Under Burst
+            </label>
+            {{ orderForm.Under_Burst }}
+        </div>
+
+        <div class="Mesurements_div" id="High_waist_measurement_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                High Waist Measurement
+            </label>
+            {{ orderForm.High_waist_measurement }}
+        </div>
+        
+    </div>
+
+    <div class="order_form_div3" id="order_form_div3">
+
+        <div class="Mesurements_div" id="Waist_measurement_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Waist Measurement
+            </label>
+            {{ orderForm.Waist_measurement }}
+        </div>
+
+        <div class="Mesurements_div" id="High_hip_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                High Hip
+            </label>
+            {{ orderForm.High_hip }}
+        </div>
+
+        <div class="Mesurements_div" id="Hip_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Hip
+            </label>
+            {{ orderForm.Hip }}
+        </div>
+
+        <div class="Mesurements_div" id="Knee_measurement_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Knee Measurement
+            </label>
+            {{ orderForm.Knee_measurement }}
+        </div>
+
+        <div class="Mesurements_div" id="Cleavage_level_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Cleavage Level
+            </label>
+            {{ orderForm.Cleavage_level }}
+        </div>
+
+        <div class="Mesurements_div" id="Shoulder_measurement_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Shoulder Measurement
+            </label>
+            {{ orderForm.Shoulder_measurement }}
+        </div>
+
+        <div class="Mesurements_div" id="Sleeve_length_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Sleeve Length
+            </label>
+            {{ orderForm.Sleeve_length }}
+        </div>
+
+        <div class="Mesurements_div" id="Round_sleeve_length_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Round Sleeve Length
+            </label>
+            {{ orderForm.Round_sleeve_length }}
+        </div>
+
+        <div class="Mesurements_div" id="Waist_to_hip_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Waist to Hip
+            </label>
+            {{ orderForm.Waist_to_hip }}
+        </div>
+
+        <div class="Mesurements_div" id="Waist_to_knee_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Waist to Knee
+            </label>
+            {{ orderForm.Waist_to_knee }}
+        </div>
+
+        <div class="Mesurements_div" id="Waist_to_floor_div" >
+            <label class="Mesurements_label" for="id_Measurement_pref" id="Measurement_pref_label" >
+                Waist to Floor
+            </label>
+            {{ orderForm.Waist_to_floor }}
+        </div>
+        
+    </div>
+    <button class="order_proceed" id="order_proceed">Proceed</button>
+</form>
+
+{% endblock %}
